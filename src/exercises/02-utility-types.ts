@@ -11,8 +11,10 @@ import type { Product } from "./01-generic-constraints.ts";
  * field is optional, and returns the merged product. Use Partial. */
 
 // TODO: changes should be Partial<Product>; returns Product
-export function updateProduct(product: Product, changes: ___): ___ {
+export function updateProduct(product: Product, changes: Partial<Product>): Product {
   // TODO: merge and return
+  // using spread operator to merge product and changes, returning a new object
+  return { ...product, ...changes};
 }
 
 /* ---- 2b. Pick ----
@@ -20,7 +22,8 @@ export function updateProduct(product: Product, changes: ___): ___ {
  * with Pick (do NOT retype the fields by hand). */
 
 // TODO: Pick<Product, "id" | "name">
-export type ProductPreview = ___;
+// this type will only have the id and name properties of product
+export type ProductPreview = Pick<Product, "id" | "name">;
 export const preview: ProductPreview = { id: 1, name: "Mug" };
 
 /* ---- 2c. Omit ----
@@ -28,7 +31,8 @@ export const preview: ProductPreview = { id: 1, name: "Mug" };
  * Build it with Omit. */
 
 // TODO: Omit<Product, "id">
-export type NewProduct = ___;
+// this type will have products properties exept for the id property
+export type NewProduct = Omit<Product, "id">;
 export const draft: NewProduct = { name: "Pen", price: 15, inStock: true };
 
 /* ---- 2d. Record ----
@@ -37,11 +41,15 @@ export const draft: NewProduct = { name: "Pen", price: 15, inStock: true };
  * array of products into that map. */
 
 // TODO: Record<string, number>
-export type PriceList = ___;
+export type PriceList = Record<string, number>;
 
 // TODO: build a PriceList from products (name -> price)
 export function buildPriceList(items: Product[]): PriceList {
-  // TODO
+  // implementing a function that takes an array of products and returns a price list mapping products names to their prices
+  return items.reduce((prices, product) => {
+    prices[product.name] = product.price;
+    return prices;
+  }, {} as PriceList);
 }
 
 // @ts-expect-error id was omitted from NewProduct
