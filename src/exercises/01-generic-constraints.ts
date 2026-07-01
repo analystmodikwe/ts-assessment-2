@@ -28,9 +28,13 @@ export function getField<T, K extends keyof T>(obj: T, key: K): T[K]{
  * `price` must be a compile error. Do not mutate `obj`. */
 
 // TODO: <T, K extends keyof T>(obj: T, key: K, value: T[K]): T
-export function withField<___>(obj: ___, key: ___, value: ___): ___ {
-  // TODO: return a new object (spread) with key replaced by value
+
+// matching the value with the field's type
+export function withField<T, K extends keyof T>(obj: T, key: K, value: T[K]):T{
+  //  returning a new object (spread) with key replaced by value
+  return{...obj, [key]: value,}
 }
+
 
 /* ---- 1c. Constrained-to-number-fields sum ----
  * `sumBy` takes an array of T and a key whose VALUE is a number, and
@@ -44,8 +48,13 @@ export function withField<___>(obj: ___, key: ___, value: ___): ___ {
  *   a mapped helper. Choose an approach that makes sumBy(products,"name") error. */
 
 // TODO: type so only number-valued keys are accepted; returns number
-export function sumBy<___>(items: ___, key: ___): number {
+// only allowing keys whose values are numbers
+export function sumBy<T, K extends keyof T>(items: T[], key: K & (T[K] extends number ? K : never)): number {
   // TODO
+  return items.reduce(
+    (sum, item) => sum + (item[key] as number),
+    0
+  );
 }
 
 export const products: Product[] = [
