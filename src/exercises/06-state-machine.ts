@@ -60,6 +60,7 @@ export function reducer<T>(_state: FetchState<T>, action: Action<T>): FetchState
 
     case "RESET":
       return { status: "idle" };
+      
     default: {
       // TODO: const _exhaustive: never = action; throw ...
       const _exhaustive: never = action;
