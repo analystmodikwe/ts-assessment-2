@@ -18,7 +18,7 @@ export interface Product {
  * Asking for a key that doesn't exist must be a COMPILE error. */
 
 // TODO: <T, K extends keyof T>(obj: T, key: K): T[K]
-export function getField<___>(obj: ___, key: ___): ___ {
+export function getField<T, K extends keyof T>(obj: T, key: K): T[K]{
   return obj[key];
 }
 
