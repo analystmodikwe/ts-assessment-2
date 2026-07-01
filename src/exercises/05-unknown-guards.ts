@@ -17,8 +17,17 @@ export interface User {
  * You may NOT cast with `as User`. Narrow properly. */
 
 // TODO: return type must be `value is User`
-export function isUser(value: unknown): ___ {
+// returns true if value is an object with numeric id and string email, false otherwise
+export function isUser(value: unknown):value is User{
   // TODO: check typeof object, not null, and the two fields' types
+  if (typeof value !== "object" || value === null) {
+    return false;
+  }
+  const obj = value as Record<string, unknown>;
+  return (
+    typeof obj.id === "number" &&
+    typeof obj.email === "string"
+  );
 }
 
 /* ---- 5b. Safe parse ----
@@ -26,8 +35,10 @@ export function isUser(value: unknown): ___ {
  * returns a User if it is one, or null otherwise. Use isUser. */
 
 // TODO: returns User | null
-export function parseUser(value: unknown): ___ {
+// returns the value if it is a user, or null otherwise
+export function parseUser(value: unknown):User | null{
   // TODO
+  return isUser(value) ? value : null;
 }
 
 /* ---- 5c. assertNever-style guard on a primitive union ----
@@ -37,8 +48,20 @@ export function parseUser(value: unknown): ___ {
  * Narrow with typeof; do not use `any`. */
 
 // TODO
+// returns the number if value is a number, or parses the string to a number, throwing an error if it is not a valid number
 export function toInt(value: string | number): number {
   // TODO
+   if (typeof value === "number") {
+    return value;
+  }
+
+  const result = Number(value);
+
+  if (Number.isNaN(result)) {
+    throw new Error("Invalid number");
+  }
+
+  return result;
 }
 
 // These run in the test harness:
